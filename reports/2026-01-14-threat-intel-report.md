@@ -1,321 +1,322 @@
 # Cyber Threat Intelligence Report
-**Date:** January 14, 2026
-**Classification:** TLP:CLEAR
-**Report ID:** CTI-2026-014
+## Date: January 14, 2026
 
 ---
 
 ## Executive Summary
 
-This report provides a comprehensive overview of the current cyber threat landscape as of January 14, 2026. Key highlights include:
+Today marks Microsoft's first Patch Tuesday of 2026, delivering fixes for **114 vulnerabilities** including one **actively exploited zero-day** (CVE-2026-20805) that CISA has immediately added to its Known Exploited Vulnerabilities catalog. The security community is also responding to critical vulnerabilities in n8n workflow automation (CVSS 10.0), SAP enterprise applications, Veeam Backup, and Fortinet products.
 
-- **Microsoft Patch Tuesday** (Jan 13): 114 vulnerabilities patched including 3 zero-days, one actively exploited (CVE-2026-20805)
-- **Critical n8n Vulnerability** (CVE-2026-21858): CVSS 10.0 RCE affecting ~100,000 servers globally
-- **CISA KEV Updates**: 4 new vulnerabilities added to the Known Exploited Vulnerabilities catalog in January
-- **VMware ESXi Zero-Days**: Chinese-linked threat actors exploiting VM escape vulnerabilities
-- **Apple Emergency Updates**: Two WebKit zero-days (CVE-2025-43529, CVE-2025-14174) exploited in targeted attacks
-- **Major Data Breaches**: 17.5M Instagram accounts exposed; ManageMyHealth (NZ) breach affecting 126K patients
-- **Ransomware Trends**: 8,000+ organizations targeted in 2025; Qilin, Akira, and Cl0p most active groups
-
-**Risk Level: HIGH** - Multiple actively exploited vulnerabilities require immediate patching.
+Key developments for January 14, 2026:
+- **Microsoft Patch Tuesday**: 114 CVEs fixed, including 8 Critical and 1 actively exploited zero-day
+- **CISA KEV Update**: CVE-2026-20805 added to KEV catalog with February 3 remediation deadline
+- **VoidLink Malware**: New cloud-native Linux malware framework disclosed by Check Point Research
+- **Everest Ransomware**: Claims 900GB data theft from Nissan Motor Corporation
+- **Chinese APT Activity**: VMware ESXi exploitation toolkit traced back to February 2024 development
+- **Firefox Zero-Days**: Mozilla patches 34 CVEs including two suspected exploited vulnerabilities
 
 ---
 
-## Critical Vulnerabilities
+## Critical Vulnerabilities (NEW)
 
-### CVSS 10.0 - Maximum Severity
+### Microsoft January 2026 Patch Tuesday
 
-| CVE | Product | Description | Status |
-|-----|---------|-------------|--------|
-| CVE-2026-21858 | n8n Workflow Automation | Unauthenticated RCE via Content-Type confusion ("Ni8mare") | Patch Available |
-| CVE-2026-21877 | n8n Workflow Automation | Unrestricted file upload leading to code execution | Fixed in v1.121.3 |
-| CVE-2025-37164 | HPE OneView | Code injection - remote unauthenticated RCE | Patched Dec 17, 2025 |
+| CVE ID | CVSS | Product | Description | Status |
+|--------|------|---------|-------------|--------|
+| **CVE-2026-20805** | 5.5 | Windows DWM | Information disclosure zero-day (actively exploited) | **CISA KEV Added** |
+| CVE-2026-20822 | Critical | Windows Graphics | Elevation of Privilege | Patch Available |
+| CVE-2026-20952 | 7.7 | Microsoft Office | Remote Code Execution (use-after-free) | Patch Available |
+| CVE-2026-20953 | 7.4 | Microsoft Office | Remote Code Execution (use-after-free) | Patch Available |
+| CVE-2026-20957 | Critical | Microsoft Excel | Remote Code Execution | Patch Available |
+| CVE-2026-20955 | Critical | Microsoft Excel | Remote Code Execution | Patch Available |
+| CVE-2026-20848 | High | Windows SMB Server | Elevation of Privilege | Patch Available |
+| CVE-2026-21265 | 6.4 | Secure Boot | Certificate expiration bypass (publicly known) | Patch Available |
 
-### CVSS 9.0+ - Critical Severity
+**Source**: [BleepingComputer](https://www.bleepingcomputer.com/news/microsoft/microsoft-january-2026-patch-tuesday-fixes-3-zero-days-114-flaws/), [The Register](https://www.theregister.com/2026/01/14/patch_tuesday_january_2026/)
 
-| CVE | CVSS | Product | Description |
-|-----|------|---------|-------------|
-| CVE-2025-68668 | 9.9 | n8n (N8scape) | Sandbox bypass allowing OS command execution |
-| CVE-2026-0501 | 9.9 | SAP S/4HANA | SQL injection in RFC-enabled module |
-| CVE-2026-0500 | 9.6 | SAP Wily Introscope | RCE via malicious JNLP files |
-| CVE-2026-0625 | 9.3 | D-Link DSL Routers | Command injection (EOL devices - unpatchable) |
-| CVE-2026-21440 | 9.2 | AdonisJS Bodyparser | Path traversal enabling arbitrary file write |
-| CVE-2026-0498 | 9.1 | SAP S/4HANA | Code injection leading to OS command execution |
-| CVE-2025-59470 | 9.0 | Veeam Backup | RCE as postgres user |
+### n8n Workflow Automation Critical Vulnerabilities
+
+| CVE ID | CVSS | Description |
+|--------|------|-------------|
+| **CVE-2026-21858** | **10.0** | "Ni8mare" - Unauthenticated RCE via Content-Type confusion |
+| **CVE-2026-21877** | **10.0** | Unrestricted file upload with dangerous type |
+| CVE-2025-68613 | 9.9 | Improper control of dynamically-managed code resources |
+
+- **Affected**: n8n versions prior to 1.121.0 (~100,000 servers globally)
+- **Impact**: Complete instance takeover without authentication
+- **Remediation**: Upgrade to version 1.121.0 immediately
+
+**Source**: [The Hacker News](https://thehackernews.com/2026/01/critical-n8n-vulnerability-cvss-100.html), [CyberScoop](https://cyberscoop.com/n8n-critical-vulnerability-massive-risk/)
+
+### AdonisJS Path Traversal (NEW)
+
+| CVE ID | CVSS | Description |
+|--------|------|-------------|
+| **CVE-2026-21440** | **9.2** | Path traversal in multipart file handling enables arbitrary file write |
+
+- **Affected**: @adonisjs/bodyparser through 10.1.1 and 11.x pre-releases
+- **Impact**: Remote arbitrary file write, potential RCE
+- **Remediation**: Upgrade to version 10.1.2 or 11.0.0-next.6
+
+**Source**: [The Hacker News](https://thehackernews.com/2026/01/critical-adonisjs-bodyparser-flaw-cvss.html)
+
+### Fortinet Critical Vulnerabilities (NEW Advisory - January 14, 2026)
+
+| CVE ID | CVSS | Product | Description |
+|--------|------|---------|-------------|
+| CVE-2025-25249 | High | FortiOS/FortiSwitchManager | Unauthenticated RCE via CAPWAP daemon |
+| CVE-2025-64155 | Critical | FortiSIEM | Unauthenticated RCE as root |
+
+- **MS-ISAC Advisory 2026-003** issued January 13, 2026
+- **Affected products**: FortiOS, FortiSIEM, FortiSwitchManager, FortiSandbox, FortiWeb, FortiVoice, FortiClientEMS
+
+**Source**: [Secure-ISS SOC Advisory](https://secure-iss.com/soc-advisory-fortinet-fortisiem-fortios-critical-vulnerabilities-14-jan-2026/)
 
 ---
 
 ## Exploits & Zero-Days
 
-### Actively Exploited Zero-Days
+### Microsoft Zero-Day Under Active Exploitation
 
-#### Microsoft Windows (CVE-2026-20805)
-- **CVSS:** 5.5 | **Type:** Information Disclosure
-- **Component:** Desktop Window Manager (DWM)
-- **Impact:** Leaks memory addresses used for exploit chain reliability
-- **Status:** Patched in January 2026 Patch Tuesday
-- **CISA KEV Due Date:** February 3, 2026
+**CVE-2026-20805** - Windows Desktop Window Manager Information Disclosure
+- **Status**: Actively exploited in the wild
+- **CISA KEV**: Added January 14, 2026; remediation deadline February 3, 2026
+- **Discovery**: Microsoft Threat Intelligence Center
+- **Impact**: Memory address leakage enabling follow-on exploitation
 
-#### VMware ESXi (Multiple CVEs)
-Chinese-linked threat actors are actively exploiting VMware ESXi zero-days to escape virtual machines:
-- **CVE-2025-22224** (CVSS 9.3) - Memory corruption
-- **CVE-2025-22225** (CVSS 8.2) - Sandbox escape
-- **CVE-2025-22226** (CVSS 7.1) - Information leak
+### Firefox Suspected Zero-Days
 
-Attack chain allows full hypervisor compromise from guest VM.
+| CVE ID | Description | Status |
+|--------|-------------|--------|
+| CVE-2026-0891 | Suspected exploitation in the wild | Patched in Firefox 147 / ESR 140.7 |
+| CVE-2026-0892 | Suspected exploitation in the wild | Patched in Firefox 147 |
 
-#### Apple WebKit (CVE-2025-43529 & CVE-2025-14174)
-- **Impact:** Arbitrary code execution via malicious web content
-- **Target:** Specific individuals in "extremely sophisticated" attacks
-- **Status:** Patched in iOS 26.2, macOS Tahoe 26.2, Safari 26.2
+- **Total CVEs Fixed**: 34 vulnerabilities across Firefox and Firefox ESR
+- Mozilla addressed sandbox escape vulnerabilities rated CVSS 10.0
 
-#### D-Link DSL Routers (CVE-2026-0625)
-- **CVSS:** 9.3 | **Type:** Command Injection
-- **Status:** End-of-life devices - NO PATCH AVAILABLE
-- **Impact:** DNS hijacking affecting all downstream devices
+**Source**: [Ivanti Blog](https://www.ivanti.com/blog/january-2026-patch-tuesday), [Secure-ISS](https://secure-iss.com/soc-advisory-mozilla-firefox-critical-vulnerabilities-14-jan-2026/)
 
-#### Firefox (CVE-2026-0891 & CVE-2026-0892)
-- **Status:** Suspected exploitation; fixed in Firefox 147, ESR 140.7
-- **Impact:** Sandbox escape and arbitrary code execution
+### VMware ESXi Zero-Day Exploitation (UPDATE - New Attribution Details)
+
+[UPDATE] New research from Huntress reveals the VMware ESXi exploitation toolkit was developed as early as **February 2024** - over a year before Broadcom's public disclosure in March 2025.
+
+- **Toolkit Name**: MAESTRO
+- **Attribution**: Chinese-speaking threat actors (simplified Chinese strings in code paths)
+- **Initial Access**: SonicWall VPN compromise
+- **Exposure**: 30,000+ internet-facing ESXi instances vulnerable
+
+**Source**: [Huntress](https://www.huntress.com/blog/esxi-vm-escape-exploit), [The Hacker News](https://thehackernews.com/2026/01/chinese-linked-hackers-exploit-vmware.html)
 
 ---
 
 ## Malware & Ransomware
 
-### Ransomware Landscape Overview
-- **8,000+ organizations** claimed as victims in 2025 (up from 6,000 in 2024)
-- **30% increase** in active ransomware groups
-- **57 new ransomware groups** emerged in 2025
-- **350+ new ransomware strains** discovered
+### VoidLink: New Cloud-Native Linux Malware Framework (NEW)
 
-### Most Active Ransomware Groups (January 2026)
-1. **Qilin** - Targeted CSV Group (Italy), HealthBridge Chiropractic
-2. **Akira** - Continued operations across multiple sectors
-3. **Cl0p** - Mass exploitation campaigns
-4. **Play** - Active in North America and Europe
-5. **Safepay** - Emerging threat actor
-6. **Shinobi** - Targeted M&M Auto Parts
-7. **Incransom** - Targeted 3GH Informatica Integral (Spain)
-8. **Crimson Collective** - Claims Brightspeed breach (1M+ customers)
+Check Point Research disclosed a sophisticated new malware framework targeting Linux cloud infrastructure:
 
-### Notable January 2026 Ransomware Incidents
-| Date | Victim | Threat Actor | Data Claimed |
-|------|--------|--------------|--------------|
-| Jan 2 | CSV Group (Italy) | Qilin | Corporate data |
-| Jan 6 | HealthBridge Chiropractic | Qilin | Healthcare records |
-| Jan 2026 | European Space Agency | Unknown | 200GB (API tokens, source code) |
-| Jan 2026 | M&M Auto Parts | Shinobi | Encrypted systems |
+**Key Characteristics:**
+- Written in Zig, Go, and C
+- Cloud provider detection: AWS, GCP, Azure, Alibaba, Tencent
+- Kubernetes/Docker environment awareness
+- Self-deletion and runtime code encryption
+- User-mode and kernel-level rootkit capabilities
+- Adaptive behavior based on security monitoring level
 
-### Enforcement Actions
-Two US cybersecurity professionals (Ryan Goldberg, Georgia-based incident response manager) pleaded guilty to BlackCat/Alphv ransomware conspiracy. Sentencing scheduled for March 12, 2026, facing up to 20 years.
+**Attribution**: Chinese-affiliated developers (exact affiliation unclear)
+**Status**: No active infections confirmed; appears to be a commercial offering
+
+**Source**: [Check Point Research](https://research.checkpoint.com/2026/voidlink-the-cloud-native-malware-framework/), [BleepingComputer](https://www.bleepingcomputer.com/news/security/new-voidlink-malware-framework-targets-linux-cloud-servers/)
+
+### Ransomware Activity
+
+#### Everest Ransomware - Nissan Motor Corporation (NEW)
+
+- **Date**: January 10, 2026
+- **Claimed Data**: 900GB exfiltrated
+- **Evidence**: Screenshots of directory structures, dealer information
+- **Status**: Pending verification; Nissan has not confirmed
+
+**Source**: [Hackread](https://hackread.com/everest-ransomware-nissan-data-breach/), [Cybernews](https://cybernews.com/security/nissan-900gb-data-leak-ransomware/)
+
+#### BlackCat/Alphv - Insider Threat Case Resolution
+
+Two US cybersecurity professionals pleaded guilty to conspiracy charges for their roles in BlackCat ransomware operations:
+- Kevin Martin (36, Texas) - Former DigitalMint negotiator
+- Ryan Goldberg (40, Georgia) - Former Sygnia incident response manager
+- **Sentencing**: March 12, 2026
+- **Maximum Penalty**: 20 years
+
+**Source**: [SecurityWeek](https://www.securityweek.com/two-us-cybersecurity-pros-plead-guilty-over-ransomware-attacks/)
 
 ---
 
 ## Threat Actors
 
-### Nation-State Activity
+### Chinese-Linked APT Activity
 
-#### China (APT)
-- **VMware ESXi Exploitation:** Sophisticated multi-stage attack chain exploiting zero-days
-- **Focus:** Critical infrastructure, semiconductor manufacturers, AI ecosystem
-- **Tactics:** Long-dwell operations for IP theft, "most persistent, long-term threat"
+#### VMware ESXi Exploitation Campaign
+- Custom toolkit "MAESTRO" with VSOCKpuppet backdoor
+- Development artifacts suggest "XLab" involvement
+- Timestamps indicate November 2023 infrastructure preparation
 
-#### Russia
-- **Focus:** Ukraine operations, global information operations
-- **Targeting:** Western nations, election interference campaigns
-- **Priority:** Long-term strategic goals
+#### VoidLink Framework Development
+- Commercial-grade malware targeting cloud infrastructure
+- Extensive documentation suggesting product offering
+- Chinese-affiliated development team
 
-#### North Korea
-- **Focus:** Cryptocurrency theft, IT supply chain compromise
-- **Notable:** Scattered Spider teenage hacking group targeting Fortune 500 ($1T+ targeted since 2022)
+### Scattered Spider
+Federal authorities continue targeting teenage hacking groups including Scattered Spider, which has targeted an estimated $1 trillion worth of Fortune 500 companies since 2022.
 
-#### Iran
-- **Current Focus:** Domestic dissidents
-- **Outlook:** Expected large cyber-attacks to maintain regional influence
-
-### Emerging Threat: AI-Powered Attacks
-- AI agents capable of coordinating attacks without human intervention
-- "AI poisoning" attacks targeting ML training datasets
-- Autonomous attack scaling expected to increase in 2026
+**Source**: [Fortune](https://fortune.com/2026/01/01/feds-hunt-teenagers-hacking-crypto-gaming/)
 
 ---
 
-## Vendor Advisories
+## Vendor Security Advisories (January 14, 2026)
 
-### Microsoft - Patch Tuesday (January 13, 2026)
-**114 vulnerabilities patched** including:
-- 8 Critical (6 RCE, 2 EoP)
-- 3 Zero-days (1 actively exploited)
-- 57 Elevation of Privilege (50%)
-- 22 Remote Code Execution (19%)
-- 22 Information Disclosure (19%)
+### Microsoft
+- **114 CVEs** fixed (8 Critical, 105 Important)
+- 1 actively exploited zero-day
+- Removal of vulnerable Agere Soft Modem drivers
 
-**Priority Patches:**
-| CVE | Component | Severity | Notes |
-|-----|-----------|----------|-------|
-| CVE-2026-20805 | DWM | High | Actively exploited |
-| CVE-2026-20854 | LSASS | Critical | Network exploitable use-after-free |
-| CVE-2026-20944 | Word | Critical | RCE via malicious documents |
-| CVE-2026-20953 | Office | Critical | Use-after-free |
-| CVE-2026-20955 | Excel | Critical | Pointer manipulation |
+### SAP Security Patch Day
 
-**Windows Update KB Numbers:**
-- Windows 11: KB5074109, KB5073455
-- Windows 10: KB5073724
+| CVE ID | CVSS | Product | Description |
+|--------|------|---------|-------------|
+| CVE-2026-0501 | 9.9 | S/4HANA | Critical SQL injection (RFC/ADBC) |
+| CVE-2026-0500 | 9.6 | Wily Introscope | Unauthenticated RCE via JNLP |
+| CVE-2026-0498 | 9.1 | S/4HANA | Code injection (OS command) |
+| CVE-2026-0491 | 9.1 | Landscape Transformation | Code injection |
 
-### Apple Security Updates
-**iOS 26.2 / macOS Tahoe 26.2** (Emergency Release)
-- Two actively exploited WebKit zero-days
-- Affects iPhone 11+, iPad (3rd gen Air+, 8th gen+, mini 5th gen+)
-- iOS 26.3 beta testing background security improvements
+**Total**: 19 vulnerabilities addressed
 
-### Google Chrome
-**Version 143.0.7499.192/.193** (January 6, 2026)
-- CVE-2026-0628: High-severity WebView policy enforcement bypass
-- Affects ~3 billion users across desktop and Android
-- Chrome 144 releasing January 13, 2026
+**Source**: [SecurityWeek](https://www.securityweek.com/saps-january-2026-security-updates-patch-critical-vulnerabilities/)
 
-### Mozilla Firefox
-**Firefox 147 / ESR 140.7** (January 13, 2026)
-- CVSS 10.0 sandbox escape vulnerability
-- Use-after-free in JavaScript engine
-- Memory safety bugs with evidence of exploitation
-- Migrated to Safe Browsing V5 protocol
+### Cisco
+- **CVE-2026-20029** (CVSS 4.9): ISE/ISE-PIC XML External Entity vulnerability
+- Public PoC exploit available
+- Additional Snort 3 DCE/RPC fixes (CVE-2026-20026, CVE-2026-20027)
 
-### SAP - January 2026 Security Patch Day
-4 Critical vulnerabilities (CVSS 9.0+):
-- CVE-2026-0501: SQL injection in S/4HANA (9.9)
-- CVE-2026-0500: RCE in Wily Introscope (9.6)
-- CVE-2026-0498: Code injection in S/4HANA (9.1)
-- CVE-2026-0491: Code injection in Landscape Transformation (9.1)
+**Source**: [The Hacker News](https://thehackernews.com/2026/01/cisco-patches-ise-security.html)
 
 ### Veeam Backup & Replication
-**Version 13.0.1.1071** - Addresses CVE-2025-59470 (CVSS 9.0) RCE vulnerability
+- **CVE-2025-59470** (CVSS 9.0): PostgreSQL RCE
+- Affects version 13.0.1.180 and earlier v13 builds
+- Fixed in version 13.0.1.1071
+
+**Source**: [The Hacker News](https://thehackernews.com/2026/01/veeam-patches-critical-rce.html)
+
+### Mozilla Firefox
+- 34 CVEs addressed across Firefox 147 and Firefox ESR
+- Two suspected exploited vulnerabilities patched
+
+### Adobe
+Security updates for: InDesign, Illustrator, InCopy, Bridge, Substance 3D (Modeler, Stager, Painter, Sampler, Designer), ColdFusion
+
+### Google Android
+January 2026 security bulletin with fix for critical "DD+ Codec" flaw affecting Dolby components
 
 ---
 
-## Industry News
+## Industry News & Data Breaches
 
-### Data Breaches
+### Gulshan Management Services Breach (NEW Disclosure)
+- **Discovered**: September 27, 2025 (disclosed January 2026)
+- **Root Cause**: Phishing attack on September 17, 2025
+- **Records Affected**: 377,082
+- **Data Exposed**: Names, SSNs, contact information, driver's license numbers
 
-| Organization | Records Affected | Data Exposed | Status |
-|--------------|------------------|--------------|--------|
-| Instagram (Meta) | 17.5 million | Account data | Circulating on dark web |
-| ManageMyHealth (NZ) | 108K-126K | Patient portal data | Disclosed Jan 2, 2026 |
-| Brightspeed | 1+ million | PII, billing, partial payment | Claimed by Crimson Collective |
-| WIRED (Condé Nast) | 2.3 million | Subscriber information | Leaked |
-| Ledger (via Global-e) | Customer orders | Order data only | Confirmed Jan 5, 2026 |
+**Source**: [GlobeNewswire](https://www.globenewswire.com/news-release/2026/01/12/3217014/6819/en/Gulshan-Management-Services-Inc-Data-Breach-Alert-Issued-By-Wolf-Haldenstein.html)
 
-### Regulatory & Enforcement
-- North Carolina: 50% increase in ransomware attacks (843 to 1,215 incidents)
-- BlackCat/Alphv operators facing sentencing in March 2026
-- FCEB agencies required to patch CISA KEV vulnerabilities by specified due dates
+### 700Credit Breach Notification
+- **Affected Individuals**: 5.6 million nationwide
+- **South Carolina Residents**: 108,000+
+- **Data Type**: Consumer credit and identity verification data
 
-### Industry Trends
-- Europe: 22% of global ransomware attacks, 3.2M DDoS attacks recorded
-- 60% of breaches involve human element (phishing, credentials)
-- Average breach cost: $4.44 million
-- AI-driven attacks and autonomous agents emerging as primary concern
+### European Space Agency Breach
+- Collaborative engineering servers compromised
+- Claims of 200GB+ stolen data including API tokens and source code
+- Investigation ongoing
+
+### Instagram Password Reset Issue
+- Meta confirmed unauthorized password reset emails were sent
+- Denied any data breach of systems
+- Accounts remain secure per Meta statement
+
+---
+
+## CISA Known Exploited Vulnerabilities (KEV) Updates
+
+### Added January 14, 2026
+| CVE ID | Product | Due Date |
+|--------|---------|----------|
+| CVE-2026-20805 | Microsoft Windows DWM | February 3, 2026 |
+
+### Recent Additions (Past 7 Days)
+| CVE ID | Product | Due Date |
+|--------|---------|----------|
+| CISA KEV Jan 12 | 1 vulnerability added | TBD |
+| CISA KEV Jan 7 | 2 vulnerabilities added | TBD |
 
 ---
 
 ## Recommended Actions
 
-### Immediate (24-48 Hours)
+### Immediate (Within 24-48 Hours)
 
-1. **Apply Microsoft January 2026 Patches**
-   - Priority: CVE-2026-20805 (actively exploited)
-   - Focus on LSASS and Office vulnerabilities
+1. **Apply Microsoft January 2026 Patch Tuesday updates** - Prioritize CVE-2026-20805 (actively exploited)
+2. **Update Firefox** to version 147 or ESR 140.7/115.32
+3. **Patch n8n instances** to version 1.121.0 if exposed to internet
+4. **Update Veeam Backup & Replication** to version 13.0.1.1071
+5. **Apply SAP Security Notes** for critical SQL injection and RCE vulnerabilities
+6. **Patch Cisco ISE** if using affected versions
 
-2. **Update Apple Devices**
-   - Deploy iOS 26.2 / macOS Tahoe 26.2 immediately
-   - Two WebKit zero-days actively exploited
+### Short-Term (Within 1 Week)
 
-3. **Update Browsers**
-   - Chrome 143.0.7499.193+ (CVE-2026-0628)
-   - Firefox 147 / ESR 140.7 (sandbox escape)
-
-4. **n8n Workflow Automation**
-   - Update to version 1.121.3 or later immediately
-   - CVE-2026-21858 allows unauthenticated RCE
-
-5. **Check for D-Link DSL Routers**
-   - EOL devices vulnerable to CVE-2026-0625
-   - No patch available - replace immediately
-
-### Short-Term (1-2 Weeks)
-
-6. **Patch SAP Systems**
-   - Four critical vulnerabilities in January Patch Day
-   - SQL injection and RCE risks
-
-7. **Update Veeam Backup**
-   - Deploy version 13.0.1.1071
-   - Addresses critical RCE vulnerability
-
-8. **Review HPE OneView**
-   - Ensure December 2025 patch applied
-   - CVE-2025-37164 (CVSS 10.0) in CISA KEV
-
-9. **VMware ESXi**
-   - Verify March 2025 patches applied
-   - Chinese APT actively exploiting VM escape chain
+1. **Audit VMware ESXi environments** - Apply latest patches; ESXi 6.x is EOL and unpatched
+2. **Review Fortinet deployments** - Apply FortiOS and FortiSIEM updates
+3. **Update AdonisJS applications** using @adonisjs/bodyparser
+4. **Implement network segmentation** for backup infrastructure
+5. **Scan for VoidLink IOCs** in Linux cloud environments
 
 ### Ongoing
 
-10. **Monitor for Ransomware IOCs**
-    - Qilin, Akira, Cl0p groups actively targeting organizations
-    - Healthcare and services sectors at elevated risk
+1. **Monitor CISA KEV catalog** for new additions
+2. **Review SonicWall VPN access logs** for signs of compromise
+3. **Implement MFA** on all administrative interfaces
+4. **Conduct phishing awareness training** (reference Gulshan Management breach)
 
-11. **Credential Hygiene**
-    - Infostealer-harvested credentials driving initial access
-    - Implement MFA, monitor for leaked credentials
+---
 
-12. **AI Security Posture**
-    - Review AI/ML pipeline security
-    - Monitor for training data poisoning attempts
+## Indicators of Compromise (IOCs)
+
+### VoidLink Malware
+- Detection of Zig/Go/C hybrid binaries on Linux systems
+- Unusual cloud metadata API queries
+- Kernel module loading without legitimate purpose
+- Self-deleting binaries upon detection
+
+### VMware ESXi Exploitation (MAESTRO Toolkit)
+- exploit.exe / MyDriver.sys artifacts
+- VSOCKpuppet ELF backdoor
+- VSOCK-based command and control traffic
+- Disabled VMware VMCI devices
 
 ---
 
 ## Sources
 
-### CISA & Government
+- [Microsoft Security Update Guide](https://msrc.microsoft.com/update-guide/)
 - [CISA Known Exploited Vulnerabilities Catalog](https://www.cisa.gov/known-exploited-vulnerabilities-catalog)
-- [CISA Adds One KEV - January 12, 2026](https://www.cisa.gov/news-events/alerts/2026/01/12/cisa-adds-one-known-exploited-vulnerability-catalog)
-- [CISA Adds Two KEVs - January 7, 2026](https://www.cisa.gov/news-events/alerts/2026/01/07/cisa-adds-two-known-exploited-vulnerabilities-catalog)
-- [CISA Vulnerability Summary - Week of Jan 5](https://www.cisa.gov/news-events/bulletins/sb26-012)
-
-### Vendor Advisories
-- [Microsoft Patch Tuesday January 2026](https://www.bleepingcomputer.com/news/microsoft/microsoft-january-2026-patch-tuesday-fixes-3-zero-days-114-flaws/)
-- [Apple Security Releases](https://support.apple.com/en-us/100100)
-- [Chrome Releases Blog](https://chromereleases.googleblog.com/2026/01/stable-channel-update-for-desktop.html)
-- [Mozilla Security Advisories - Firefox 147](https://www.mozilla.org/en-US/security/advisories/mfsa2026-01/)
-- [SAP January 2026 Security Updates](https://www.securityweek.com/saps-january-2026-security-updates-patch-critical-vulnerabilities/)
-
-### Threat Intelligence
-- [The Hacker News - n8n Critical Vulnerability](https://thehackernews.com/2026/01/critical-n8n-vulnerability-cvss-100.html)
-- [The Hacker News - VMware ESXi Zero-Days](https://thehackernews.com/2026/01/chinese-linked-hackers-exploit-vmware.html)
-- [Cyera Research - Ni8mare RCE](https://www.cyera.com/research-labs/ni8mare-unauthenticated-remote-code-execution-in-n8n-cve-2026-21858)
-- [Dark Reading - D-Link Zero-Day](https://www.darkreading.com/cyberattacks-data-breaches/attackers-exploit-zero-day-end-of-life-d-link-routers)
-- [CYFIRMA Weekly Intelligence Report](https://www.cyfirma.com/news/weekly-intelligence-report-09-january-2026/)
-
-### Data Breaches
-- [SharkStriker - January 2026 Data Breaches](https://sharkstriker.com/blog/data-breaches-in-january-2026/)
-- [CyberPress - Instagram Data Leak](https://cyberpress.org/instagram-data-leak/)
-- [SecurityWeek - Data Breaches Linked to Single Threat Actor](https://www.securityweek.com/dozens-of-major-data-breaches-linked-to-single-threat-actor/)
-
-### Ransomware & Malware
-- [Cyble - Ransomware Trends 2026](https://cyble.com/knowledge-hub/10-new-ransomware-groups-of-2025-threat-trend-2026/)
-- [SecurityWeek - 8,000 Ransomware Attacks](https://www.securityweek.com/in-other-news-8000-ransomware-attacks-china-hacked-us-gov-emails-idhs-breach-impacts-700k/)
-- [Fortune - Scattered Spider Investigation](https://fortune.com/2026/01/01/feds-hunt-teenagers-hacking-crypto-gaming/)
-
-### Analysis & Research
-- [Zero Day Initiative - January 2026 Review](https://www.thezdi.com/blog/2026/1/13/the-january-2026-security-update-review)
-- [CrowdStrike - Patch Tuesday Analysis](https://www.crowdstrike.com/en-us/blog/patch-tuesday-analysis-january-2026/)
-- [Qualys - Microsoft Patch Tuesday Review](https://blog.qualys.com/vulnerabilities-threat-research/2026/01/13/microsoft-patch-tuesday-january-2026-security-update-review)
-- [IT Pro - Nation State Threats 2026](https://www.itpro.com/security/cyber-attacks/crink-attacks-nation-state-hackers--threat-2026)
+- [The Hacker News](https://thehackernews.com/)
+- [BleepingComputer](https://www.bleepingcomputer.com/)
+- [SecurityWeek](https://www.securityweek.com/)
+- [The Register](https://www.theregister.com/)
+- [Check Point Research](https://research.checkpoint.com/)
+- [Huntress](https://www.huntress.com/blog/)
+- [CyberScoop](https://cyberscoop.com/)
 
 ---
 
 *Report generated: January 14, 2026*
-*Next scheduled update: January 15, 2026*
+*Classification: TLP:WHITE - Unlimited distribution*
