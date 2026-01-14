@@ -1,0 +1,416 @@
+---
+name: threatseeker-report
+description: Cyber security threat intelligence agent that monitors internet sources for new exploits, vulnerabilities, malware campaigns, and important cyber threats worldwide. Use this skill when the user wants to gather threat intelligence, produce a daily/weekly security report, monitor for new CVEs, track threat actors, or stay informed about the latest security threats. Triggered manually or scheduled to output markdown reports to any specified location.
+license: MIT
+allowed-tools:
+  - WebSearch
+  - WebFetch
+  - Write
+  - Read
+  - Bash
+  - TodoWrite
+---
+
+# Cyber Threat Intelligence Agent
+
+## Purpose
+Gather, analyze, and report on current cyber security threats from authoritative sources across the internet. Produces structured markdown reports suitable for security teams, executives, or personal threat awareness.
+
+## Invocation
+User triggers with commands like:
+- `/threatseeker-report`
+- "Run threat intel report"
+- "Generate daily security briefing"
+- "What are today's critical vulnerabilities?"
+- "Create threat intelligence report and save to [path]"
+
+## Workflow
+
+### Step 1: Initialize Report
+1. Ask user for output location if not provided
+2. Note current date for report header
+3. Create TodoWrite checklist to track progress through each intelligence category
+
+### Step 2: Gather Critical Vulnerabilities
+Search for and analyze:
+- **CISA KEV**: Known Exploited Vulnerabilities added in last 24-48 hours
+- **NVD/CVE**: Critical (CVSS >= 9.0) and High (CVSS >= 7.0) vulnerabilities
+- **Zero-days**: Actively exploited vulnerabilities without patches
+
+**Search queries to use:**
+- "CISA KEV new vulnerabilities [current year]"
+- "critical CVE [current month year] CVSS 9"
+- "zero-day vulnerability [current month year]"
+- "actively exploited CVE"
+
+### Step 3: Gather Exploit Intelligence
+Search for:
+- New proof-of-concept exploits released
+- Exploitation attempts in the wild
+- Exploit-DB recent additions
+
+**Search queries:**
+- "new exploit released [current month year]"
+- "proof of concept CVE [current year]"
+- "exploit in the wild [current month]"
+
+### Step 4: Gather Malware & Ransomware Intelligence
+Search for:
+- Active malware campaigns
+- Ransomware group activity
+- New malware families discovered
+- Notable IOCs (Indicators of Compromise)
+
+**Search queries:**
+- "ransomware attack [current month year]"
+- "malware campaign [current month year]"
+- "new malware discovered [current year]"
+- "ransomware group activity"
+
+### Step 5: Gather Threat Actor Intelligence
+Search for:
+- APT group activity
+- Nation-state cyber operations
+- Criminal group campaigns
+- Notable TTPs (Tactics, Techniques, Procedures)
+
+**Search queries:**
+- "APT threat actor [current month year]"
+- "nation-state cyber attack [current year]"
+- "threat actor campaign [current month]"
+
+### Step 6: Gather Vendor Security Advisories
+Check recent advisories from:
+- Microsoft (Patch Tuesday, out-of-band updates)
+- Google (Chrome, Android, Cloud)
+- Apple (iOS, macOS)
+- Cisco, VMware, Fortinet, Palo Alto
+- Linux kernel, major OSS projects
+
+**Search queries:**
+- "Microsoft security advisory [current month year]"
+- "Google Chrome security update [current month]"
+- "Apple security update [current month year]"
+- "Patch Tuesday [current month year]"
+
+### Step 7: Gather Industry News
+Search for:
+- Major data breaches
+- Security incidents at notable organizations
+- Regulatory/compliance news
+- Industry trends
+
+**Search queries:**
+- "data breach [current month year]"
+- "cyber attack company [current month year]"
+- "security incident [current month]"
+
+### Step 8: Compile Report
+Generate structured markdown report using the template below. Write to user-specified location.
+
+### Step 9: Auto-Push to Git Repository (Optional)
+If `--auto-push` flag is provided or if running in scheduled/automated mode:
+
+1. **Check for Git Configuration**
+   - Verify the output directory is a git repository
+   - If not, check for `CTI_GIT_REPO` environment variable (required for auto-push)
+
+2. **Initialize Repository (if needed)**
+   ```bash
+   cd [output_directory]
+   git init
+   git remote add origin $CTI_GIT_REPO
+   ```
+
+3. **Commit and Push Report**
+   ```bash
+   cd [output_directory]
+   git add .
+   git commit -m "Add threat intel report for [DATE]
+
+   - Critical vulnerabilities: [count]
+   - Zero-days: [count]
+   - Ransomware activity: [summary]
+
+   Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>"
+
+   git pull --rebase origin main 2>/dev/null || true
+   git push -u origin main
+   ```
+
+4. **Handle Conflicts**
+   - If rebase conflicts occur, keep local changes (our report is authoritative)
+   - Resolve conflicts by accepting our version and continue rebase
+
+**Environment Variables for Automation:**
+- `CTI_OUTPUT_DIR`: Output directory for reports (default: `/tmp/cyber-threat-intel`)
+- `CTI_GIT_REPO`: Git repository URL (required for auto-push, e.g., `git@github.com:YOUR_USERNAME/threat-intel-reports.git`)
+- `CTI_AUTO_PUSH`: Set to `true` to enable auto-push (default: `false`)
+- `CTI_HISTORY_DAYS`: Number of days to check for deduplication (default: `7`)
+
+---
+
+## Report Template
+
+Use this structure for the output report:
+
+```markdown
+# Threat Intelligence Report - [DATE]
+
+## Executive Summary
+Brief overview of the threat landscape for this reporting period:
+- **Critical Items**: [count] requiring immediate attention
+- **New CVEs**: [count] critical/high severity
+- **Active Campaigns**: [notable campaigns]
+- **Key Trend**: [one-sentence trend summary]
+
+---
+
+## Critical Vulnerabilities
+
+### Actively Exploited (CISA KEV)
+| CVE ID | Product | CVSS | Added | Description |
+|--------|---------|------|-------|-------------|
+| CVE-XXXX-XXXXX | Product | X.X | Date | Brief description |
+
+### Critical Severity (CVSS >= 9.0)
+| CVE ID | Product | CVSS | Description |
+|--------|---------|------|-------------|
+
+### High Severity Notable
+| CVE ID | Product | CVSS | Description |
+|--------|---------|------|-------------|
+
+---
+
+## Exploits & Zero-Days
+
+### New Exploits Released
+- **[CVE-ID]**: [Brief description of exploit and impact]
+  - Affected: [products/versions]
+  - Status: [PoC available / actively exploited / patch available]
+
+### Zero-Day Activity
+- [Details on any zero-days discovered or exploited]
+
+---
+
+## Malware & Ransomware
+
+### Active Campaigns
+- **[Campaign/Malware Name]**
+  - Type: [Ransomware/Trojan/Stealer/etc.]
+  - Targets: [Industries/regions]
+  - Vector: [Phishing/Exploit/etc.]
+  - Notable: [Key details]
+
+### Ransomware Activity
+- [Ransomware group] claimed [victim] - [details]
+
+### IOCs (if notable)
+- Domains:
+- IPs:
+- Hashes:
+
+---
+
+## Threat Actors
+
+### APT/Nation-State Activity
+- **[Group Name/Designation]**
+  - Attribution: [Country/Unknown]
+  - Targets: [Sectors/regions]
+  - TTPs: [Brief technique summary]
+  - Reference: [Link to analysis]
+
+### Criminal Groups
+- [Notable criminal cyber activity]
+
+---
+
+## Vendor Advisories
+
+### Microsoft
+- [Advisory summary with CVE counts and critical items]
+
+### Google
+- [Chrome/Android/Cloud updates]
+
+### Apple
+- [iOS/macOS security updates]
+
+### Other Notable
+- [Cisco, VMware, Fortinet, etc.]
+
+---
+
+## Industry News
+
+### Breaches & Incidents
+- **[Organization]**: [Brief incident summary]
+  - Impact: [Data exposed / systems affected]
+  - Attribution: [If known]
+
+### Regulatory/Compliance
+- [Notable regulatory news]
+
+---
+
+## Recommended Actions
+
+### Immediate (Critical)
+1. [ ] Patch [specific CVE] on [affected systems]
+2. [ ] Block [IOC] at perimeter
+
+### This Week (High)
+1. [ ] Review [vendor] advisory and plan patching
+2. [ ] Hunt for [threat indicator] in environment
+
+### Awareness
+- [Items for security awareness]
+
+---
+
+## Sources
+- CISA: https://www.cisa.gov/known-exploited-vulnerabilities-catalog
+- NVD: https://nvd.nist.gov/
+- [Other sources used in this report]
+
+---
+*Report generated by Cyber Threat Intel Agent on [timestamp]*
+```
+
+---
+
+## Intelligence Sources Reference
+
+### Vulnerability Databases
+| Source | URL | Focus |
+|--------|-----|-------|
+| NIST NVD | nvd.nist.gov | CVE database, CVSS scores |
+| CISA KEV | cisa.gov/known-exploited-vulnerabilities-catalog | Actively exploited vulns |
+| MITRE CVE | cve.mitre.org | CVE assignments |
+
+### Security News
+| Source | URL | Focus |
+|--------|-----|-------|
+| BleepingComputer | bleepingcomputer.com | Breaking security news |
+| The Hacker News | thehackernews.com | Security news & analysis |
+| SecurityWeek | securityweek.com | Enterprise security |
+| Dark Reading | darkreading.com | Security analysis |
+| Krebs on Security | krebsonsecurity.com | Investigative security |
+
+### Government/Official
+| Source | URL | Focus |
+|--------|-----|-------|
+| CISA Alerts | cisa.gov/news-events/alerts | US govt advisories |
+| US-CERT | us-cert.cisa.gov | Technical alerts |
+| NCSC (UK) | ncsc.gov.uk | UK govt advisories |
+
+### Threat Intelligence
+| Source | URL | Focus |
+|--------|-----|-------|
+| MITRE ATT&CK | attack.mitre.org | TTPs framework |
+| Mandiant Blog | cloud.google.com/blog/topics/threat-intelligence | Threat research |
+| Recorded Future | recordedfuture.com/blog | Threat intelligence |
+| Unit 42 | unit42.paloaltonetworks.com | Threat research |
+
+### Vendor Advisories
+| Vendor | URL |
+|--------|-----|
+| Microsoft | msrc.microsoft.com/update-guide |
+| Google | security.googleblog.com |
+| Apple | support.apple.com/en-us/HT201222 |
+| Cisco | sec.cloudapps.cisco.com/security/center |
+
+---
+
+## Execution Notes
+
+1. **Parallel Searches**: Execute multiple WebSearch calls in parallel for efficiency
+2. **Source Verification**: Prefer authoritative sources (vendor advisories, CISA, NVD)
+3. **Deduplication**: Same vulnerability may appear in multiple sources - consolidate
+4. **Context Window**: For comprehensive reports, prioritize critical items if context limited
+5. **Freshness**: Focus on last 24-48 hours for daily reports, last 7 days for weekly
+6. **Date Handling**: Always use actual current date in searches, not placeholder text
+
+---
+
+## Deduplication System
+
+### Purpose
+Prevents repeating the same vulnerabilities, breaches, and incidents across daily reports. Each report should contain ONLY NEW information.
+
+### How It Works
+
+1. **Previous Report Scanning**: The runner script scans the last 7 days of reports
+2. **CVE Extraction**: Extracts all CVE IDs from previous reports
+3. **Tracking File**: Maintains `reported-items.txt` with all previously reported CVEs
+4. **Context Injection**: Passes list of previous items to Claude with instructions to exclude them
+
+### Deduplication Rules
+
+1. **Do NOT repeat** any CVE that was reported in the last 7 days
+2. **Exception**: Include previously reported CVE only if there's a SIGNIFICANT update:
+   - New exploit released
+   - Patch now available
+   - New victims identified
+   - CISA added to KEV
+3. **Mark updates** with `[UPDATE]` prefix to distinguish from new items
+4. **Empty categories**: If no new activity, note "No new activity reported today"
+
+### Tracking File Format
+
+Location: `$CTI_OUTPUT_DIR/reported-items.txt`
+
+```
+# Reported on 2026-01-13
+CVE-2026-21858
+CVE-2026-0625
+CVE-2025-22224
+# Reported on 2026-01-14
+CVE-2026-20805
+CVE-2026-0501
+```
+
+### Environment Variables
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `CTI_HISTORY_DAYS` | `7` | Number of days to check for duplicates |
+
+### Search Query Tips for Fresh Content
+
+Use date-specific queries:
+- "CVE January 14 2026" (specific date)
+- "security advisory today"
+- "data breach disclosed January 2026"
+- "ransomware attack last 24 hours"
+
+---
+
+## Scheduled Automation (macOS)
+
+### Setup Instructions
+
+1. **Copy the runner script** to `~/.claude/scripts/threatseeker-report-runner.sh`
+2. **Copy the launchd plist template** to `~/Library/LaunchAgents/com.claude.threatseeker-report.plist`
+3. **Edit the plist** to replace:
+   - `YOUR_USERNAME` with your macOS username
+   - `YOUR_GITHUB_USERNAME` with your GitHub username
+4. **Load the job**: `launchctl load ~/Library/LaunchAgents/com.claude.threatseeker-report.plist`
+
+### Required Environment
+- SSH key configured for GitHub access
+- Claude Code CLI installed and authenticated
+- Network access to threat intel sources
+
+### Verifying Schedule
+```bash
+launchctl list | grep threatseeker-report
+```
+
+### Manual Trigger
+```bash
+~/.claude/scripts/threatseeker-report-runner.sh
+```

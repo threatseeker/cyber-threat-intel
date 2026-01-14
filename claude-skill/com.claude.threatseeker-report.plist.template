@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+    Threatseeker Report - launchd Template
+
+    SETUP INSTRUCTIONS:
+    1. Copy this file to ~/Library/LaunchAgents/com.claude.threatseeker-report.plist
+    2. Replace YOUR_USERNAME with your macOS username
+    3. Replace YOUR_GITHUB_USERNAME with your GitHub username
+    4. Load with: launchctl load ~/Library/LaunchAgents/com.claude.threatseeker-report.plist
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.claude.threatseeker-report</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <!-- UPDATE: Replace YOUR_USERNAME with your macOS username -->
+        <string>/Users/YOUR_USERNAME/.claude/scripts/threatseeker-report-runner.sh</string>
+    </array>
+
+    <key>StartCalendarInterval</key>
+    <dict>
+        <!-- Schedule: 8:00 AM daily (local time) -->
+        <key>Hour</key>
+        <integer>8</integer>
+        <key>Minute</key>
+        <integer>0</integer>
+    </dict>
+
+    <key>StandardOutPath</key>
+    <!-- UPDATE: Replace YOUR_USERNAME with your macOS username -->
+    <string>/Users/YOUR_USERNAME/.claude/logs/threatseeker-report-stdout.log</string>
+
+    <key>StandardErrorPath</key>
+    <!-- UPDATE: Replace YOUR_USERNAME with your macOS username -->
+    <string>/Users/YOUR_USERNAME/.claude/logs/threatseeker-report-stderr.log</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/homebrew/bin</string>
+
+        <!-- UPDATE: Replace YOUR_USERNAME with your macOS username -->
+        <key>HOME</key>
+        <string>/Users/YOUR_USERNAME</string>
+
+        <key>CTI_OUTPUT_DIR</key>
+        <string>/tmp/threatseeker-report</string>
+
+        <!-- REQUIRED: Replace with your GitHub repository URL -->
+        <key>CTI_GIT_REPO</key>
+        <string>git@github.com:YOUR_GITHUB_USERNAME/threat-intel-reports.git</string>
+
+        <key>CTI_AUTO_PUSH</key>
+        <string>true</string>
+
+        <key>CTI_HISTORY_DAYS</key>
+        <string>7</string>
+    </dict>
+
+    <key>RunAtLoad</key>
+    <false/>
+
+    <key>ProcessType</key>
+    <string>Background</string>
+</dict>
+</plist>
