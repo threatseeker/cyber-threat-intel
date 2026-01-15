@@ -15,6 +15,15 @@ export CTI_OUTPUT_DIR="${CTI_OUTPUT_DIR:-/tmp/threatseeker-report}"
 export CTI_AUTO_PUSH="${CTI_AUTO_PUSH:-true}"
 export CTI_HISTORY_DAYS="${CTI_HISTORY_DAYS:-7}"  # Days of history to check for duplicates
 
+# Email configuration
+export CTI_EMAIL_ENABLED="${CTI_EMAIL_ENABLED:-false}"
+export CTI_EMAIL_TO="${CTI_EMAIL_TO:-}"
+export CTI_EMAIL_FROM="${CTI_EMAIL_FROM:-}"
+export CTI_SMTP_HOST="${CTI_SMTP_HOST:-smtp.gmail.com}"
+export CTI_SMTP_PORT="${CTI_SMTP_PORT:-587}"
+export CTI_EMAIL_USE_KEYCHAIN="${CTI_EMAIL_USE_KEYCHAIN:-false}"
+# CTI_EMAIL_APP_PASSWORD can be set in environment or use Keychain (macOS)
+
 # Validate required config for auto-push
 if [ "$CTI_AUTO_PUSH" = "true" ] && [ -z "$CTI_GIT_REPO" ]; then
     echo "ERROR: CTI_GIT_REPO environment variable is required when CTI_AUTO_PUSH=true"
@@ -210,5 +219,44 @@ Co-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>"
 else
     log "Auto-push disabled, skipping git operations"
 fi
+
+# Email notification
+send_email_notification() {
+    if [ "$CTI_EMAIL_ENABLED" != "true" ]; then
+        log "Email notifications disabled (CTI_EMAIL_ENABLED != true)"
+        return 0
+    fi
+
+    if [ -z "$CTI_EMAIL_TO" ]; then
+        log "WARNING: CTI_EMAIL_ENABLED=true but CTI_EMAIL_TO not set, skipping email"
+        return 1
+    fi
+
+    if [ -z "$CTI_EMAIL_FROM" ]; then
+        log "WARNING: CTI_EMAIL_ENABLED=true but CTI_EMAIL_FROM not set, skipping email"
+        return 1
+    fi
+
+    log "Sending email notification to: $CTI_EMAIL_TO"
+
+    EMAIL_SCRIPT="$HOME/.claude/scripts/cti-email-sender.py"
+
+    if [ ! -f "$EMAIL_SCRIPT" ]; then
+        log "ERROR: Email script not found: $EMAIL_SCRIPT"
+        return 1
+    fi
+
+    # Run the email script
+    if python3 "$EMAIL_SCRIPT" "$REPORT_FILE" 2>&1 | tee -a "$LOG_FILE"; then
+        log "Email sent successfully"
+        return 0
+    else
+        log "ERROR: Failed to send email"
+        return 1
+    fi
+}
+
+# Call email function after git push
+send_email_notification || log "Email notification failed (non-fatal)"
 
 log "Threatseeker Report Generation Complete"

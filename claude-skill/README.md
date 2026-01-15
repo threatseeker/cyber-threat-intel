@@ -85,6 +85,13 @@ Or natural language:
 | `CTI_GIT_REPO` | **(required for auto-push)** | Git repository URL |
 | `CTI_AUTO_PUSH` | `true` | Enable automatic git push |
 | `CTI_HISTORY_DAYS` | `7` | Days to check for deduplication |
+| `CTI_EMAIL_ENABLED` | `false` | Enable email notifications |
+| `CTI_EMAIL_TO` | (none) | Comma-separated recipient list |
+| `CTI_EMAIL_FROM` | (none) | Sender email address |
+| `CTI_SMTP_HOST` | `smtp.gmail.com` | SMTP server |
+| `CTI_SMTP_PORT` | `587` | SMTP port (TLS) |
+| `CTI_EMAIL_USE_KEYCHAIN` | `false` | Use macOS Keychain for password |
+| `CTI_EMAIL_APP_PASSWORD` | (none) | SMTP App Password (if not using Keychain) |
 
 ### Example Setup
 
@@ -139,12 +146,59 @@ The skill tracks previously reported items to avoid repetition:
 - Network access to threat intel sources
 - bash shell (included on macOS, Linux, WSL)
 
+## Email Notifications (Optional)
+
+Reports can be automatically emailed after generation.
+
+### Setup
+
+1. **Copy the email script:**
+   ```bash
+   cp cti-email-sender.py ~/.claude/scripts/
+   chmod +x ~/.claude/scripts/cti-email-sender.py
+   ```
+
+2. **Generate an App Password:**
+   - **Gmail:** Google Account > Security > 2-Step Verification > App passwords
+   - **Outlook:** Microsoft Account > Security > App passwords
+
+3. **Store password in Keychain (macOS):**
+   ```bash
+   security add-generic-password \
+       -s "cyber-threat-intel-smtp" \
+       -a "your-email@gmail.com" \
+       -w "xxxx-xxxx-xxxx-xxxx"
+   ```
+
+4. **Configure environment variables:**
+   ```bash
+   export CTI_EMAIL_ENABLED=true
+   export CTI_EMAIL_TO="recipient1@example.com,recipient2@example.com"
+   export CTI_EMAIL_FROM="your-email@gmail.com"
+   export CTI_EMAIL_USE_KEYCHAIN=true
+   ```
+
+### SMTP Providers
+
+| Provider | SMTP Host | Port |
+|----------|-----------|------|
+| Gmail | `smtp.gmail.com` | 587 |
+| Outlook | `smtp-mail.outlook.com` | 587 |
+| iCloud | `smtp.mail.me.com` | 587 |
+
+### Test Email
+
+```bash
+python3 ~/.claude/scripts/cti-email-sender.py /path/to/report.md --dry-run
+```
+
 ## Files Included
 
 | File | Description |
 |------|-------------|
 | `threatseeker-report.skill` | Main skill file for Claude Code |
 | `threatseeker-report-runner.sh` | Cross-platform runner script |
+| `cti-email-sender.py` | Python email sender (smtplib) |
 | `com.claude.threatseeker-report.plist.template` | macOS launchd template |
 | `threatseeker-report.cron` | Linux cron template |
 | `threatseeker-report.service` | Linux systemd service |
