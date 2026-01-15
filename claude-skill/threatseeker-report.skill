@@ -2,6 +2,7 @@
 name: threatseeker-report
 description: Cyber security threat intelligence agent that monitors internet sources for new exploits, vulnerabilities, malware campaigns, and important cyber threats worldwide. Use this skill when the user wants to gather threat intelligence, produce a daily/weekly security report, monitor for new CVEs, track threat actors, or stay informed about the latest security threats. Triggered manually or scheduled to output markdown reports to any specified location.
 license: MIT
+user_invocable: true
 allowed-tools:
   - WebSearch
   - WebFetch
