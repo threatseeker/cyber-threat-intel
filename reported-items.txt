@@ -162,3 +162,44 @@ CVE-2026-20944
 CVE-2026-20952
 CVE-2026-20953
 CVE-2026-21858
+
+# Updated 2026-01-15 - Additional Items
+
+## New CVEs from today's comprehensive report
+CVE-2026-21265  # Windows Secure Boot bypass (publicly disclosed)
+CVE-2023-31096  # Agere Soft Modem drivers (removed by Microsoft)
+
+## APT Groups Reported Today
+UAT-8837  # China-nexus APT targeting North American critical infrastructure (NEW - disclosed Jan 15, 2026)
+
+## Malware Campaigns Reported Today
+SHADOW#REACTOR  # Remcos RAT campaign
+PLUGGYAPE  # Targeting Ukrainian defense forces
+Black Cat SEO Poisoning  # Targeting software downloads
+
+## Data Breaches Reported Today
+SoundCloud  # ~28M accounts affected
+Instagram  # 17.5M accounts data leak
+Gulshan Management Services
+Dartmouth College  # 40,000+ affected
+Monroe University  # 320,000 affected
+Ledger/Global-e  # Supply chain breach
+# Reported on 2026-01-15
+CVE-2009-0556
+CVE-2023-31096
+CVE-2025-22224
+CVE-2025-22225
+CVE-2025-22226
+CVE-2025-37164
+CVE-2025-68428
+CVE-2026-0498
+CVE-2026-0500
+CVE-2026-0501
+CVE-2026-0625
+CVE-2026-20029
+CVE-2026-20805
+CVE-2026-20944
+CVE-2026-20952
+CVE-2026-20953
+CVE-2026-21265
+CVE-2026-21858
