@@ -1,0 +1,32 @@
+# Threatseeker Report - Cron Schedule Template
+#
+# SETUP INSTRUCTIONS:
+# 1. Edit this file and replace YOUR_USERNAME and YOUR_GITHUB_USERNAME
+# 2. Run: crontab -e
+# 3. Paste the line below (without the # comment)
+# 4. Save and exit
+#
+# VERIFY:
+#   crontab -l | grep threatseeker
+#
+# LOGS:
+#   tail -f ~/.claude/logs/threatseeker-report-cron.log
+#
+# ENVIRONMENT VARIABLES:
+#   CTI_GIT_REPO     - Required for auto-push (set inline or in shell profile)
+#   CTI_OUTPUT_DIR   - Output directory (default: /tmp/threatseeker-report)
+#   CTI_AUTO_PUSH    - Enable auto-push (default: true)
+#   CTI_HISTORY_DAYS - Days for deduplication (default: 7)
+
+# Run daily at 8:00 AM
+# UPDATE: Replace YOUR_USERNAME and YOUR_GITHUB_USERNAME below
+
+0 8 * * * CTI_GIT_REPO="git@github.com:YOUR_GITHUB_USERNAME/threat-intel-reports.git" /home/YOUR_USERNAME/.claude/scripts/threatseeker-report-runner.sh >> /home/YOUR_USERNAME/.claude/logs/threatseeker-report-cron.log 2>&1
+
+# Alternative: If you set CTI_GIT_REPO in your shell profile (~/.bashrc or ~/.profile)
+# 0 8 * * * /home/YOUR_USERNAME/.claude/scripts/threatseeker-report-runner.sh >> /home/YOUR_USERNAME/.claude/logs/threatseeker-report-cron.log 2>&1
+
+# Alternative times:
+# 0 6 * * *   - 6:00 AM daily
+# 0 9 * * 1-5 - 9:00 AM weekdays only
+# 0 */6 * * * - Every 6 hours

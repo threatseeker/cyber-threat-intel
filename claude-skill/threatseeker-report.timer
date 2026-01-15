@@ -1,0 +1,35 @@
+# Threatseeker Report - systemd Timer Unit
+#
+# This timer triggers the threatseeker-report.service daily at 8:00 AM
+#
+# SETUP:
+#   sudo cp threatseeker-report.timer /etc/systemd/system/
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable --now threatseeker-report.timer
+#
+# VERIFY:
+#   systemctl list-timers | grep threatseeker
+#   systemctl status threatseeker-report.timer
+#
+# MANUAL TRIGGER:
+#   sudo systemctl start threatseeker-report.service
+
+[Unit]
+Description=Daily Threatseeker Cyber Threat Intelligence Report
+Documentation=https://github.com/threatseeker/cyber-threat-intel
+
+[Timer]
+# Run daily at 8:00 AM local time
+OnCalendar=*-*-* 08:00:00
+
+# If system was off at scheduled time, run when it comes back online
+Persistent=true
+
+# Random delay up to 5 minutes to avoid exact-time spikes
+RandomizedDelaySec=300
+
+# Accuracy (how close to scheduled time)
+AccuracySec=60
+
+[Install]
+WantedBy=timers.target

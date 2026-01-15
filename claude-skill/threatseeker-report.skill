@@ -390,28 +390,124 @@ Use date-specific queries:
 
 ---
 
-## Scheduled Automation (macOS)
+## Scheduled Automation (Cross-Platform)
 
-### Setup Instructions
+### Common Setup (All Platforms)
 
-1. **Copy the runner script** to `~/.claude/scripts/threatseeker-report-runner.sh`
-2. **Copy the launchd plist template** to `~/Library/LaunchAgents/com.claude.threatseeker-report.plist`
-3. **Edit the plist** to replace:
-   - `YOUR_USERNAME` with your macOS username
-   - `YOUR_GITHUB_USERNAME` with your GitHub username
-4. **Load the job**: `launchctl load ~/Library/LaunchAgents/com.claude.threatseeker-report.plist`
+1. **Copy the runner script**:
+   ```bash
+   mkdir -p ~/.claude/scripts
+   cp threatseeker-report-runner.sh ~/.claude/scripts/
+   chmod +x ~/.claude/scripts/threatseeker-report-runner.sh
+   ```
 
-### Required Environment
+2. **Set environment variables** (add to your shell profile or scheduler config):
+   ```bash
+   export CTI_GIT_REPO="git@github.com:YOUR_USERNAME/threat-intel-reports.git"
+   export CTI_OUTPUT_DIR="/path/to/reports"  # Optional, defaults to /tmp/threatseeker-report
+   export CTI_AUTO_PUSH="true"               # Optional, defaults to true
+   export CTI_HISTORY_DAYS="7"               # Optional, defaults to 7
+   ```
+
+### Required Environment (All Platforms)
 - SSH key configured for GitHub access
 - Claude Code CLI installed and authenticated
 - Network access to threat intel sources
 
-### Verifying Schedule
-```bash
-launchctl list | grep threatseeker-report
-```
+---
 
-### Manual Trigger
+### macOS (launchd)
+
+1. Copy the launchd plist template:
+   ```bash
+   cp com.claude.threatseeker-report.plist.template ~/Library/LaunchAgents/com.claude.threatseeker-report.plist
+   ```
+
+2. Edit the plist and replace:
+   - `YOUR_USERNAME` with your macOS username
+   - `YOUR_GITHUB_USERNAME` with your GitHub username
+
+3. Load the schedule:
+   ```bash
+   launchctl load ~/Library/LaunchAgents/com.claude.threatseeker-report.plist
+   ```
+
+4. Verify:
+   ```bash
+   launchctl list | grep threatseeker-report
+   ```
+
+---
+
+### Linux (cron)
+
+1. Edit your crontab:
+   ```bash
+   crontab -e
+   ```
+
+2. Add the following line (runs daily at 8:00 AM):
+   ```cron
+   0 8 * * * CTI_GIT_REPO="git@github.com:YOUR_USERNAME/threat-intel-reports.git" ~/.claude/scripts/threatseeker-report-runner.sh >> ~/.claude/logs/threatseeker-report-cron.log 2>&1
+   ```
+
+   Or use the provided cron template file.
+
+3. Verify:
+   ```bash
+   crontab -l | grep threatseeker
+   ```
+
+---
+
+### Linux (systemd)
+
+1. Copy the systemd service and timer files:
+   ```bash
+   sudo cp threatseeker-report.service /etc/systemd/system/
+   sudo cp threatseeker-report.timer /etc/systemd/system/
+   ```
+
+2. Edit `/etc/systemd/system/threatseeker-report.service` and replace:
+   - `YOUR_USERNAME` with your Linux username
+   - `YOUR_GITHUB_USERNAME` with your GitHub username
+
+3. Enable and start the timer:
+   ```bash
+   sudo systemctl daemon-reload
+   sudo systemctl enable threatseeker-report.timer
+   sudo systemctl start threatseeker-report.timer
+   ```
+
+4. Verify:
+   ```bash
+   systemctl list-timers | grep threatseeker
+   systemctl status threatseeker-report.timer
+   ```
+
+---
+
+### Windows (WSL)
+
+Use the Linux cron method inside WSL:
+
+1. Install cron in WSL if not present:
+   ```bash
+   sudo apt install cron
+   sudo service cron start
+   ```
+
+2. Follow the Linux (cron) instructions above.
+
+3. To ensure cron runs on WSL startup, add to `/etc/wsl.conf`:
+   ```ini
+   [boot]
+   command = service cron start
+   ```
+
+---
+
+### Manual Trigger (All Platforms)
 ```bash
 ~/.claude/scripts/threatseeker-report-runner.sh
 ```

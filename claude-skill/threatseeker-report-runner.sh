@@ -1,13 +1,15 @@
 #!/bin/bash
 # Threatseeker Report - Cyber Threat Intelligence Runner
-# Scheduled to run daily at 8:00 AM via launchd
+# Cross-platform script for macOS, Linux, and WSL
+# Schedule via: launchd (macOS), cron (Linux/WSL), or systemd (Linux)
 # Creates threat intel report and pushes to GitHub
 # Includes deduplication to avoid repeating previously reported items
 
 set -e
 
 # Configuration
-# CTI_GIT_REPO must be set in environment or launchd plist for auto-push to work
+# CTI_GIT_REPO must be set in environment for auto-push to work
+# Set via: launchd plist (macOS), crontab, systemd service, or shell profile
 # Example: export CTI_GIT_REPO="git@github.com:YOUR_USERNAME/threat-intel-reports.git"
 export CTI_OUTPUT_DIR="${CTI_OUTPUT_DIR:-/tmp/threatseeker-report}"
 export CTI_AUTO_PUSH="${CTI_AUTO_PUSH:-true}"

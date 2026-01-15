@@ -2,6 +2,8 @@
 
 Automated daily cyber threat intelligence report generation using Claude Code.
 
+**Cross-platform:** Works on macOS, Linux, and Windows (WSL).
+
 ## Overview
 
 This skill generates comprehensive cyber threat intelligence reports by scanning authoritative sources for:
@@ -25,28 +27,42 @@ cp threatseeker-report.skill ~/.claude/skills/
 
 ### 2. Set Up Automation (Optional)
 
-For daily automated reports:
+For daily automated reports, copy the runner script:
+```bash
+mkdir -p ~/.claude/scripts
+cp threatseeker-report-runner.sh ~/.claude/scripts/
+chmod +x ~/.claude/scripts/threatseeker-report-runner.sh
+```
 
-1. Copy the runner script:
-   ```bash
-   mkdir -p ~/.claude/scripts
-   cp threatseeker-report-runner.sh ~/.claude/scripts/
-   chmod +x ~/.claude/scripts/threatseeker-report-runner.sh
-   ```
+Then configure scheduling for your platform:
 
-2. Copy and configure the launchd plist (macOS):
-   ```bash
-   cp com.claude.threatseeker-report.plist.template ~/Library/LaunchAgents/com.claude.threatseeker-report.plist
-   ```
+#### macOS (launchd)
+```bash
+cp com.claude.threatseeker-report.plist.template ~/Library/LaunchAgents/com.claude.threatseeker-report.plist
+# Edit the plist: replace YOUR_USERNAME and YOUR_GITHUB_USERNAME
+launchctl load ~/Library/LaunchAgents/com.claude.threatseeker-report.plist
+```
 
-3. Edit the plist and replace:
-   - `YOUR_USERNAME` → your macOS username
-   - `YOUR_GITHUB_USERNAME` → your GitHub username
+#### Linux (cron)
+```bash
+crontab -e
+# Add: 0 8 * * * CTI_GIT_REPO="git@github.com:USER/repo.git" ~/.claude/scripts/threatseeker-report-runner.sh >> ~/.claude/logs/cron.log 2>&1
+```
 
-4. Load the schedule:
-   ```bash
-   launchctl load ~/Library/LaunchAgents/com.claude.threatseeker-report.plist
-   ```
+#### Linux (systemd)
+```bash
+sudo cp threatseeker-report.service threatseeker-report.timer /etc/systemd/system/
+# Edit the service file: replace YOUR_USERNAME and YOUR_GITHUB_USERNAME
+sudo systemctl daemon-reload
+sudo systemctl enable --now threatseeker-report.timer
+```
+
+#### Windows (WSL)
+Use the Linux cron method inside WSL. Ensure cron is running:
+```bash
+sudo apt install cron
+sudo service cron start
+```
 
 ## Usage
 
@@ -107,11 +123,33 @@ The skill tracks previously reported items to avoid repetition:
 - Microsoft MSRC, Google Security Blog, Apple Security
 - MITRE ATT&CK, Mandiant, Unit 42
 
+## Platform Support
+
+| Platform | Scheduler | Template File |
+|----------|-----------|---------------|
+| macOS | launchd | `com.claude.threatseeker-report.plist.template` |
+| Linux | cron | `threatseeker-report.cron` |
+| Linux | systemd | `threatseeker-report.service` + `.timer` |
+| Windows | WSL + cron | Use Linux cron method |
+
 ## Requirements
 
 - Claude Code CLI installed and authenticated
 - SSH key configured for GitHub (if using auto-push)
 - Network access to threat intel sources
+- bash shell (included on macOS, Linux, WSL)
+
+## Files Included
+
+| File | Description |
+|------|-------------|
+| `threatseeker-report.skill` | Main skill file for Claude Code |
+| `threatseeker-report-runner.sh` | Cross-platform runner script |
+| `com.claude.threatseeker-report.plist.template` | macOS launchd template |
+| `threatseeker-report.cron` | Linux cron template |
+| `threatseeker-report.service` | Linux systemd service |
+| `threatseeker-report.timer` | Linux systemd timer |
+| `README.md` | This documentation |
 
 ## License
 

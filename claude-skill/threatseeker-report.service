@@ -1,0 +1,55 @@
+# Threatseeker Report - systemd Service Unit
+#
+# SETUP INSTRUCTIONS:
+# 1. Edit this file and replace YOUR_USERNAME and YOUR_GITHUB_USERNAME
+# 2. Copy to: sudo cp threatseeker-report.service /etc/systemd/system/
+# 3. Copy timer: sudo cp threatseeker-report.timer /etc/systemd/system/
+# 4. Reload: sudo systemctl daemon-reload
+# 5. Enable: sudo systemctl enable threatseeker-report.timer
+# 6. Start: sudo systemctl start threatseeker-report.timer
+#
+# VERIFY:
+#   systemctl list-timers | grep threatseeker
+#   systemctl status threatseeker-report.timer
+#
+# LOGS:
+#   journalctl -u threatseeker-report.service -f
+#
+# MANUAL RUN:
+#   sudo systemctl start threatseeker-report.service
+
+[Unit]
+Description=Threatseeker Cyber Threat Intelligence Report Generator
+Documentation=https://github.com/threatseeker/cyber-threat-intel
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+
+# UPDATE: Replace YOUR_USERNAME with your Linux username
+User=YOUR_USERNAME
+Group=YOUR_USERNAME
+
+# UPDATE: Replace YOUR_GITHUB_USERNAME with your GitHub username
+Environment="CTI_GIT_REPO=git@github.com:YOUR_GITHUB_USERNAME/threat-intel-reports.git"
+Environment="CTI_OUTPUT_DIR=/tmp/threatseeker-report"
+Environment="CTI_AUTO_PUSH=true"
+Environment="CTI_HISTORY_DAYS=7"
+
+# UPDATE: Replace YOUR_USERNAME with your Linux username
+Environment="HOME=/home/YOUR_USERNAME"
+Environment="PATH=/usr/local/bin:/usr/bin:/bin"
+
+# UPDATE: Replace YOUR_USERNAME with your Linux username
+ExecStart=/home/YOUR_USERNAME/.claude/scripts/threatseeker-report-runner.sh
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+
+# Timeout (10 minutes should be plenty)
+TimeoutStartSec=600
+
+[Install]
+WantedBy=multi-user.target
