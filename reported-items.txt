@@ -203,3 +203,40 @@ CVE-2026-20952
 CVE-2026-20953
 CVE-2026-21265
 CVE-2026-21858
+
+# Reported on 2026-01-16
+
+## New CVEs Added 2026-01-16
+
+### WordPress
+CVE-2026-23550  # Modular DS plugin privilege escalation (CVSS 10.0) - ACTIVELY EXPLOITED
+
+### Langflow AI Platform
+CVE-2026-21445  # Missing authentication on critical API endpoints (CVSS 8.8)
+
+## Malware Campaigns Reported Today
+Astaroth/Boto Cor-de-Rosa  # WhatsApp worm targeting Brazil
+DarkSpectre  # Browser extension spyware (8.8M users infected)
+GlassWorm Wave 4  # macOS targeting via malicious VSCode extensions
+c-ares DLL Side-Loading  # Multiple RATs/stealers distribution
+
+## Ransomware Activity
+Dire Wolf - Tepco-Group (Japan)  # Energy sector victim (Jan 13, 2026)
+
+## Data Breaches Reported Today
+ANKA/GSPlatformCo  # 537,877 individuals affected
+Rmoney India (alleged)  # 1.5GB SQL dump claimed
+
+## Threat Actors Active
+APT28 (Fancy Bear)  # Credential harvesting - Balkans, Middle East, Central Asia
+GTG-1002 (China)  # AI-powered espionage operations
+
+## Attack Techniques Disclosed
+Reprompt Attack  # Microsoft Copilot data exfiltration (PATCHED Jan 13, 2026)
+# Reported on 2026-01-16
+CVE-2026-0625
+CVE-2026-0891
+CVE-2026-0892
+CVE-2026-20029
+CVE-2026-21445
+CVE-2026-23550
