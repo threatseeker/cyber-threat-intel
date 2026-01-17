@@ -240,3 +240,40 @@ CVE-2026-0892
 CVE-2026-20029
 CVE-2026-21445
 CVE-2026-23550
+
+# Reported on 2026-01-17
+
+## Updates to Previously Reported CVEs
+CVE-2025-64155  # FortiSIEM - PoC released, active exploitation expanded (~15 actors)
+CVE-2025-55182  # React2Shell - Mass exploitation by RondoDox botnet
+
+## Oracle EBS Zero-Day Campaign (University of Phoenix breach disclosure)
+CVE-2025-61882  # Oracle EBS zero-day exploited by Clop
+CVE-2025-61884  # Oracle EBS related vulnerability
+
+## Malware Campaigns Reported Today
+RondoDox Botnet  # Mass exploitation of React2Shell, cryptominers, Mirai variants
+Malicious Chrome Extensions  # DataByCloud, Tool Access 11, Software Access - targeting Workday/NetSuite/SuccessFactors
+Keylogger on US Bank Employee Store  # Sansec discovery, 200k+ employees exposed
+
+## Ransomware Activity
+Everest Ransomware - Nissan  # Claimed Jan 10, 900GB allegedly stolen (unverified)
+
+## Data Breaches Reported Today
+Victorian Department of Education (Australia)  # All 1,700 government schools, student data
+University of Phoenix  # 3.49M affected, Oracle EBS zero-day (CVE-2025-61882)
+700Credit  # 5.6M consumers, 18,000 dealerships
+
+## Threat Intelligence Updates
+- FortiSIEM CVE-2025-64155 PoC released, exploitation expanded to ~15 threat actors
+- RondoDox botnet conducting 150,000 daily React2Shell exploit attempts
+- 90,300 vulnerable Next.js instances exposed globally
+# Reported on 2026-01-17
+CVE-2025-55182
+CVE-2025-61882
+CVE-2025-64155
+CVE-2025-68613
+CVE-2026-0625
+CVE-2026-20805
+CVE-2026-21858
+CVE-2026-21877
