@@ -14,6 +14,10 @@
 - **NEW**: Sedgwick/Managed Care Advisors breach via TridentLocker ransomware - government contractor serving DHS, ICE, and CISA; notifications started February 11
 - **NEW**: Physical phishing letters impersonating Trezor and Ledger target hardware wallet users via snail mail with QR codes to steal recovery phrases
 - **NEW**: IRS improperly disclosed 47,000 immigrant taxpayer records to DHS despite federal court order blocking the practice
+- **NEW**: Google Chrome zero-day CVE-2026-2441 (use-after-free in CSS, CVSS 8.8) - actively exploited in the wild; patch to Chrome 145.0.7632.75/76 immediately
+- **NEW**: Figure Technology Solutions (fintech/HELOC lender) discloses data breach after employee phishing attack
+- **NEW**: Odido (telecoms) discloses breach exposing millions of customer records including sensitive identifiers
+- **NEW**: South Korea fines Louis Vuitton, Christian Dior, Tiffany ~$25M combined for cloud SaaS failures exposing 5.5 million customers
 - **DEADLINE TODAY**: Microsoft Office CVE-2026-21509 CISA KEV deadline is **February 16** - patch immediately
 - **UPDATE**: 83% of Ivanti EPMM exploitation traced to single IP on PROSPERO bulletproof hosting; "sleeper" webshells persist after patching
 
@@ -52,6 +56,28 @@ CISA added four new vulnerabilities to the KEV catalog on February 12, 2026:
 ---
 
 ## Critical Vulnerabilities
+
+### NEW: CVE-2026-2441 - Google Chrome Zero-Day (Use-After-Free in CSS)
+
+**CVE:** CVE-2026-2441
+**CVSS:** 8.8 (High)
+**Type:** Use-after-free in CSS processing
+**Product:** Google Chrome
+**Patched:** February 16, 2026
+**Reported by:** Shaheen Fazim (February 11, 2026)
+**Status:** Actively exploited in the wild
+
+**Impact:** Remote attacker can execute arbitrary code inside a sandbox via a crafted HTML page. Visiting a malicious website is sufficient to trigger exploitation.
+
+**Affected Versions:** Chrome prior to 145.0.7632.75/76 (Windows/Mac) or 144.0.7559.75 (Linux)
+
+**Action Required:** Update Chrome immediately. In Chrome settings: Help > About Google Chrome > auto-update or force restart.
+
+**Significance:** Google's first zero-day of 2026. Active exploitation confirmed. Chrome's large install base (~3.5B users) makes this a high-priority patch.
+
+**Sources:** [Help Net Security - CVE-2026-2441](https://www.helpnetsecurity.com/2026/02/16/google-patches-chrome-vulnerability-with-in-the-wild-exploit-cve-2026-2441/), [Qualys ThreatPROTECT](https://threatprotect.qualys.com/2026/02/16/google-patches-its-first-zero-day-vulnerability-of-the-year-cve-2026-2441/)
+
+---
 
 ### NEW: CVE-2026-20700 - Apple Zero-Day Exploited in "Extremely Sophisticated" Attacks
 
@@ -229,6 +255,47 @@ CISA added four new vulnerabilities to the KEV catalog on February 12, 2026:
 
 ---
 
+### NEW: Figure Technology Solutions - Fintech Data Breach via Phishing
+
+**Victim:** Figure Technology Solutions (blockchain-based HELOC/lending platform)
+**Incident:** Employee phishing attack leading to unauthorized data access
+**Disclosed:** February 16, 2026
+**Data Exposed:** Customer data (specific fields not yet confirmed)
+
+**Significance:** Blockchain fintech platforms hold sensitive financial data including mortgage/lending records. Phishing remains the leading initial access vector even at technology-forward companies.
+
+**Sources:** [Digital Forensics Magazine - Feb 16 Roundup](https://digitalforensicsmagazine.com/news-roundup-16th-february-2026/)
+
+---
+
+### NEW: Odido - Millions of Customer Records Exposed
+
+**Victim:** Odido (European/Netherlands-based telecommunications provider)
+**Type:** Unauthorized access to customer-contact system
+**Disclosed:** February 16, 2026
+**Data Exposed:** Personal data for millions of customers including sensitive identifiers
+
+**Significance:** Major telecom breach; customer contact system access often includes names, addresses, phone numbers, account details - high value for social engineering campaigns.
+
+**Sources:** [Digital Forensics Magazine - Feb 16 Roundup](https://digitalforensicsmagazine.com/news-roundup-16th-february-2026/)
+
+---
+
+### NEW: South Korea Fines Luxury Brands ~$25M Over Cloud SaaS Security Failures
+
+**Regulator:** South Korea Personal Information Protection Commission (PIPC)
+**Fined Entities:** Louis Vuitton Korea, Christian Dior Couture Korea, Tiffany Korea
+**Fine Amount:** KRW 36.033 billion (~US$25 million combined)
+**Disclosed:** February 16, 2026
+
+**What Happened:** Cloud-based customer management SaaS platform lacked basic security controls, enabling breaches that exposed data for more than 5.5 million customers across all three brands.
+
+**Significance:** Demonstrates regulatory enforcement against third-party SaaS security failures. Organizations cannot outsource accountability for customer data protection to SaaS vendors.
+
+**Sources:** [Digital Forensics Magazine - Feb 16 Roundup](https://digitalforensicsmagazine.com/news-roundup-16th-february-2026/)
+
+---
+
 ### NEW: IRS Improperly Shares 47,000 Taxpayer Records with DHS
 
 **Disclosed:** February 11, 2026 (Washington Post)
@@ -268,6 +335,9 @@ CISA added four new vulnerabilities to the KEV catalog on February 12, 2026:
 
 ## Vendor Advisories
 
+### Google Chrome
+- **CVE-2026-2441** - First Chrome zero-day of 2026; use-after-free in CSS; update to 145.0.7632.75/76 (Win/Mac) or 144.0.7559.75 (Linux) immediately
+
 ### Apple
 - **CVE-2026-20700** - First zero-day of 2026; patch to iOS 26.3 / macOS Tahoe 26.3 immediately
 - Exploit chain with CVE-2025-14174 and CVE-2025-43529
@@ -292,9 +362,10 @@ CISA added four new vulnerabilities to the KEV catalog on February 12, 2026:
 
 ### Immediate Priority (Today)
 
-1. **Microsoft Office CVE-2026-21509** - CISA deadline is **TODAY**; verify February out-of-band patch deployed across all Office/M365 instances
-2. **Apple CVE-2026-20700** - Update all Apple devices to iOS 26.3 / macOS Tahoe 26.3; this is an actively exploited zero-day in CISA KEV
-3. **Microsoft SCCM CVE-2024-43468** - If running Configuration Manager, verify the October 2024 patch is applied; active exploitation confirmed
+1. **Google Chrome CVE-2026-2441** - Actively exploited zero-day; update Chrome to 145.0.7632.75/76 (Win/Mac) or 144.0.7559.75 (Linux) NOW
+2. **Microsoft Office CVE-2026-21509** - CISA deadline is **TODAY**; verify February out-of-band patch deployed across all Office/M365 instances
+3. **Apple CVE-2026-20700** - Update all Apple devices to iOS 26.3 / macOS Tahoe 26.3; this is an actively exploited zero-day in CISA KEV
+4. **Microsoft SCCM CVE-2024-43468** - If running Configuration Manager, verify the October 2024 patch is applied; active exploitation confirmed
 
 ### High Priority (This Week)
 
@@ -354,6 +425,10 @@ CISA added four new vulnerabilities to the KEV catalog on February 12, 2026:
 - [Help Net Security - Ivanti Sleeper Webshells](https://www.helpnetsecurity.com/2026/02/11/ivanti-epmm-sleeper-webshell/)
 - [Malwarebytes - Week in Security Feb 9-15](https://www.malwarebytes.com/blog/news/2026/02/a-week-in-security-february-9-february-15)
 - [CISA KEV Catalog](https://www.cisa.gov/known-exploited-vulnerabilities-catalog)
+- [Help Net Security - Chrome Zero-Day CVE-2026-2441](https://www.helpnetsecurity.com/2026/02/16/google-patches-chrome-vulnerability-with-in-the-wild-exploit-cve-2026-2441/)
+- [Qualys ThreatPROTECT - Chrome CVE-2026-2441](https://threatprotect.qualys.com/2026/02/16/google-patches-its-first-zero-day-vulnerability-of-the-year-cve-2026-2441/)
+- [Digital Forensics Magazine - Feb 16 News Roundup](https://digitalforensicsmagazine.com/news-roundup-16th-february-2026/)
+- [Kordon - Cybersecurity News Week Summary Feb 16](https://kordon.app/latest-interesting-cybersecurity-news-of-the-week-summarised-16-02-2026/)
 
 ---
 
